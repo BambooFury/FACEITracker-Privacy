@@ -25,7 +25,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 relative overflow-hidden">
-      {/* Dynamic Background Particles */}
+      {/* Dynamic Background - Floating Stars */}
       {init && (
         <Particles
           id="tsparticles"
@@ -38,64 +38,39 @@ export default function PrivacyPage() {
               },
             },
             fpsLimit: 60,
-            interactivity: {
-              events: {
-                onClick: {
-                  enable: false,
-                  mode: "push",
-                },
-                onHover: {
-                  enable: true,
-                  mode: "grab",
-                },
-              },
-              modes: {
-                push: {
-                  quantity: 4,
-                },
-                grab: {
-                  distance: 140,
-                  links: {
-                    opacity: 0.5,
-                  },
-                },
-              },
-            },
             particles: {
               color: {
-                value: "#ff6b00",
-              },
-              links: {
-                color: "#ff6b00",
-                distance: 150,
-                enable: true,
-                opacity: 0.2,
-                width: 1,
+                value: ["#ffffff", "#ff6b00", "#ffaa00"],
               },
               move: {
                 direction: "none",
                 enable: true,
                 outModes: {
-                  default: "bounce",
+                  default: "out",
                 },
-                random: false,
-                speed: 1,
+                random: true,
+                speed: 0.3,
                 straight: false,
               },
               number: {
                 density: {
                   enable: true,
                 },
-                value: 60,
+                value: 100,
               },
               opacity: {
-                value: 0.3,
+                value: { min: 0.1, max: 0.6 },
+                animation: {
+                  enable: true,
+                  speed: 0.5,
+                  sync: false,
+                },
               },
               shape: {
                 type: "circle",
               },
               size: {
-                value: { min: 1, max: 3 },
+                value: { min: 0.5, max: 2 },
               },
             },
             detectRetina: true,
@@ -156,17 +131,22 @@ export default function PrivacyPage() {
               
               <div className="space-y-4 text-gray-300 leading-relaxed">
                 <p>
-                  <strong className="text-white">Faceit Forecast</strong> — это расширение для браузера, которое предоставляет подробную статистику и аналитику для матчей и игроков FACEIT. Основные функции включают:
+                  <strong className="text-white">FACEITracker</strong> — это браузерное расширение для отслеживания активности и статистики игроков CS2 на платформе FACEIT в реальном времени. Расширение предоставляет актуальные данные о матчах и игроках без необходимости авторизации.
                 </p>
+                
+                <p className="text-white font-medium pt-2">Основные возможности:</p>
 
-                <ul className="grid gap-3 pt-2">
+                <ul className="grid gap-3">
                   {[
-                    "Расширенные уровни Faceit с подробной разбивкой по elo",
-                    "Расширенная статистика матчей и процент побед команд",
-                    "Детальная статистика игроков, отображаемая на карточках пользователей",
-                    "Конкретная статистика истории матчей (Счет, рейтинг HLTV 2.1, K/D, K/R, ADR)",
-                    "Быстрый просмотр информации о матче без перехода по ссылкам",
-                    "Автоматическая отправка сообщений при выборе карт"
+                    "Отслеживание начала матчей у выбранных игроков в режиме реального времени",
+                    "Автоматическое обновление статуса игроков и матчей в фоновом режиме",
+                    "Отображение текущего ELO и уровня FACEIT (1–10)",
+                    "Просмотр истории последних матчей с результатами побед и поражений",
+                    "Детальная информация об игроках на карточках профиля (аватар, рейтинг, уровень)",
+                    "Выделение игроков из чёрного списка в матчах с пользовательскими пометками",
+                    "Быстрый доступ к статистике без перехода на страницы профилей",
+                    "Поддержка уведомлений о начале матчей",
+                    "Поддержка EN, RU, UA, PL, DE"
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-gray-400">
                       <Zap className="w-4 h-4 text-primary/60 shrink-0 mt-1" />
