@@ -4,13 +4,19 @@ import { Cpu, Info, Globe, Shield, Activity, HardDrive, UserCheck, ExternalLink,
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Particles from "@tsparticles/react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import type { Container, Engine } from "@tsparticles/engine";
+import type { Container } from "@tsparticles/engine";
 
 export default function PrivacyPage() {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine);
+  const [init, setInit] = React.useState(false);
+
+  React.useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
   const particlesLoaded = useCallback(async (container?: Container) => {
@@ -20,86 +26,82 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 relative overflow-hidden">
       {/* Dynamic Background Particles */}
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        className="absolute inset-0 z-0"
-        options={{
-          background: {
-            color: {
-              value: "transparent",
-            },
-          },
-          fpsLimit: 60,
-          interactivity: {
-            events: {
-              onClick: {
-                enable: false,
-                mode: "push",
-              },
-              onHover: {
-                enable: true,
-                mode: "grab",
-              },
-              resize: {
-                enable: true,
+      {init && (
+        <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          className="absolute inset-0 z-0"
+          options={{
+            background: {
+              color: {
+                value: "transparent",
               },
             },
-            modes: {
-              push: {
-                quantity: 4,
+            fpsLimit: 60,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: false,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: true,
+                  mode: "grab",
+                },
               },
-              grab: {
-                distance: 140,
-                links: {
-                  opacity: 0.5,
+              modes: {
+                push: {
+                  quantity: 4,
+                },
+                grab: {
+                  distance: 140,
+                  links: {
+                    opacity: 0.5,
+                  },
                 },
               },
             },
-          },
-          particles: {
-            color: {
-              value: "#ff6b00", // Brand orange
-            },
-            links: {
-              color: "#ff6b00",
-              distance: 150,
-              enable: true,
-              opacity: 0.2, // Subtle links
-              width: 1,
-            },
-            move: {
-              direction: "none",
-              enable: true,
-              outModes: {
-                default: "bounce",
+            particles: {
+              color: {
+                value: "#ff6b00",
               },
-              random: false,
-              speed: 1, // Slow, ambient movement
-              straight: false,
-            },
-            number: {
-              density: {
+              links: {
+                color: "#ff6b00",
+                distance: 150,
                 enable: true,
-                width: 800,
-                height: 800,
+                opacity: 0.2,
+                width: 1,
               },
-              value: 60, // Not too crowded
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: false,
+                speed: 1,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                },
+                value: 60,
+              },
+              opacity: {
+                value: 0.3,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 3 },
+              },
             },
-            opacity: {
-              value: 0.3,
-            },
-            shape: {
-              type: "circle",
-            },
-            size: {
-              value: { min: 1, max: 3 },
-            },
-          },
-          detectRetina: true,
-        }}
-      />
+            detectRetina: true,
+          }}
+        />
+      )}
 
       {/* Header */}
       <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
@@ -340,7 +342,7 @@ export default function PrivacyPage() {
         </Card>
         
         {/* Footer Ambient Effect */}
-        <div className="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+        <div className="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
       </main>
     </div>
   );
