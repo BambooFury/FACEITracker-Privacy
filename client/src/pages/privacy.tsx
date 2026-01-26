@@ -1,15 +1,106 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from "wouter";
-import { Cpu, ArrowLeft, Info, Globe, Circle } from "lucide-react";
+import { Cpu, Info, Globe, Shield, Activity, HardDrive, UserCheck, ExternalLink, Mail, Zap, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Particles from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Container, Engine } from "@tsparticles/engine";
 
 export default function PrivacyPage() {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container?: Container) => {
+    // console.log(container);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
-      {/* Background Ambience - subtle gradients if needed, but keeping it clean for now per reference */}
-      
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 relative overflow-hidden">
+      {/* Dynamic Background Particles */}
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        className="absolute inset-0 z-0"
+        options={{
+          background: {
+            color: {
+              value: "transparent",
+            },
+          },
+          fpsLimit: 60,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: false,
+                mode: "push",
+              },
+              onHover: {
+                enable: true,
+                mode: "grab",
+              },
+              resize: {
+                enable: true,
+              },
+            },
+            modes: {
+              push: {
+                quantity: 4,
+              },
+              grab: {
+                distance: 140,
+                links: {
+                  opacity: 0.5,
+                },
+              },
+            },
+          },
+          particles: {
+            color: {
+              value: "#ff6b00", // Brand orange
+            },
+            links: {
+              color: "#ff6b00",
+              distance: 150,
+              enable: true,
+              opacity: 0.2, // Subtle links
+              width: 1,
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce",
+              },
+              random: false,
+              speed: 1, // Slow, ambient movement
+              straight: false,
+            },
+            number: {
+              density: {
+                enable: true,
+                width: 800,
+                height: 800,
+              },
+              value: 60, // Not too crowded
+            },
+            opacity: {
+              value: 0.3,
+            },
+            shape: {
+              type: "circle",
+            },
+            size: {
+              value: { min: 1, max: 3 },
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+
       {/* Header */}
       <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -17,7 +108,7 @@ export default function PrivacyPage() {
             <div className="w-10 h-10 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center">
               <Cpu className="w-6 h-6 text-primary" />
             </div>
-            <span className="font-bold text-xl tracking-wide">FORECAST</span>
+            <span className="font-bold text-xl tracking-wide">FACEITracker</span>
           </div>
 
           <div className="flex items-center gap-6">
@@ -31,22 +122,15 @@ export default function PrivacyPage() {
             
             <div className="flex items-center gap-2 text-sm font-medium border border-white/10 rounded-md px-3 py-1.5 cursor-pointer hover:bg-white/5 transition-colors">
               <span>Русский</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><path d="m6 9 6 6 6-6"/></svg>
+              <Globe className="w-4 h-4 opacity-50" />
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 pt-32 pb-20 max-w-4xl">
-        {/* Back Button */}
-        <div className="mb-12">
-          <Button variant="outline" className="gap-2 border-white/10 bg-transparent hover:bg-white/5 hover:text-white">
-            <ArrowLeft className="w-4 h-4" />
-            На главную
-          </Button>
-        </div>
-
+      <main className="container mx-auto px-4 pt-32 pb-20 max-w-4xl relative z-10">
+        
         {/* Title Section */}
         <div className="text-center mb-16 space-y-4">
           <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
@@ -59,13 +143,13 @@ export default function PrivacyPage() {
 
         {/* Content Card */}
         <Card className="border-white/5 bg-card/50 backdrop-blur-sm shadow-2xl overflow-hidden">
-          <CardContent className="p-8 md:p-12 space-y-8">
+          <CardContent className="p-8 md:p-12 space-y-12">
             
-            {/* Section 1 */}
+            {/* Section 1: Overview */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 text-primary">
-                <Info className="w-5 h-5" />
-                <h2 className="text-xl font-bold">1. Обзор</h2>
+                <Info className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">1. Обзор</h2>
               </div>
               
               <div className="space-y-4 text-gray-300 leading-relaxed">
@@ -73,7 +157,7 @@ export default function PrivacyPage() {
                   <strong className="text-white">Faceit Forecast</strong> — это расширение для браузера, которое предоставляет подробную статистику и аналитику для матчей и игроков FACEIT. Основные функции включают:
                 </p>
 
-                <ul className="space-y-3 pl-2">
+                <ul className="grid gap-3 pt-2">
                   {[
                     "Расширенные уровни Faceit с подробной разбивкой по elo",
                     "Расширенная статистика матчей и процент побед команд",
@@ -83,7 +167,7 @@ export default function PrivacyPage() {
                     "Автоматическая отправка сообщений при выборе карт"
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-gray-400">
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-white/20 shrink-0" />
+                      <Zap className="w-4 h-4 text-primary/60 shrink-0 mt-1" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -100,6 +184,155 @@ export default function PrivacyPage() {
                 <p className="text-gray-300 text-sm leading-relaxed">
                   Данное расширение не собирает, не хранит и не обрабатывает никакой персональной информации, такой как имена, адреса электронной почты, история браузера, пароли или личные файлы.
                 </p>
+              </div>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+            {/* Section 2: Data Not Collected */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 text-primary">
+                <Shield className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">2. Данные, которые мы НЕ собираем</h2>
+              </div>
+              
+              <ul className="space-y-3 pl-2 text-gray-300">
+                  {[
+                    "Персональную идентификационную информацию (имена, электронные адреса, номера телефонов)",
+                    "Историю браузера или посещения веб-сайтов",
+                    "Пароли или учетные данные для входа",
+                    "Личные файлы или документы",
+                    "Данные о местоположении, кроме автоматически включаемых в HTTP-запросы"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                       <X className="w-4 h-4 text-red-500/70 shrink-0 mt-1" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+             <Separator className="bg-white/5" />
+
+            {/* Section 3: External Services */}
+            <div className="space-y-6">
+               <div className="flex items-center gap-3 text-primary">
+                <ExternalLink className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">3. Связь с внешними сервисами</h2>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="rounded-lg bg-white/5 p-6 border border-white/5">
+                   <h3 className="text-white font-semibold mb-3">3.1. Сервер аналитики разработчика</h3>
+                   <div className="text-sm text-gray-400 space-y-2">
+                     <p><span className="text-primary/70">Сервис:</span> api.fforecast.net</p>
+                     <p><span className="text-primary/70">Цель:</span> Сервис для сбора и обработки анонимной аналитики, например для подсчёта количества активных пользователей и мониторинга онлайн</p>
+                   </div>
+                </div>
+
+                <div className="rounded-lg bg-white/5 p-6 border border-white/5">
+                   <h3 className="text-white font-semibold mb-3">3.2. Публичный API FACEIT</h3>
+                   <div className="text-sm text-gray-400 space-y-2">
+                     <p><span className="text-primary/70">Сервис:</span> open.faceit.com</p>
+                     <p><span className="text-primary/70">Цель:</span> Доступ к публичной статистике матчей и игроков для анализа и отображения игровой информации</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+            {/* Section 4: Technical Info */}
+            <div className="space-y-6">
+               <div className="flex items-center gap-3 text-primary">
+                <Activity className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">4. Автоматическая техническая информация</h2>
+              </div>
+              <p className="text-gray-300">Как и во всех интернет-соединениях, HTTP-запросы могут автоматически включать стандартную техническую информацию, такую как:</p>
+              <ul className="space-y-2 pl-4 list-disc text-gray-400 marker:text-primary/50">
+                <li>IP-адрес (необходим для интернет-соединения)</li>
+                <li>Строка user-agent браузера</li>
+                <li>Базовые заголовки запросов</li>
+              </ul>
+              <div className="rounded-lg bg-white/5 p-4 text-sm text-gray-400 border border-white/5">
+                <span className="text-primary font-semibold">Важно:</span> Эта техническая информация может временно сохраняться в логах сервера для технических целей и обеспечения надежности сервиса. Она не используется для идентификации пользователей и не передается третьим лицам.
+              </div>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+             {/* Section 5: Local Storage */}
+            <div className="space-y-6">
+               <div className="flex items-center gap-3 text-primary">
+                <HardDrive className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">5. Локальное хранение данных</h2>
+              </div>
+              <p className="text-gray-300">Расширение может временно хранить данные локально в вашем браузере для оптимизации производительности, включая:</p>
+               <ul className="space-y-2 pl-4 list-disc text-gray-400 marker:text-primary/50">
+                <li>Кэшированная статистика FACEIT (временная, автоматически очищается)</li>
+                <li>Настройки и предпочтения расширения</li>
+              </ul>
+              <p className="text-gray-300">Эти данные остаются на вашем устройстве и не передаются на внешние серверы.</p>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+             {/* Section 6: Your Rights */}
+            <div className="space-y-6">
+               <div className="flex items-center gap-3 text-primary">
+                <UserCheck className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">6. Ваши права и варианты выбора</h2>
+              </div>
+              <div className="space-y-4 text-gray-300">
+                <p><strong className="text-white">Удаление:</strong> Вы можете удалить расширение в любое время через страницу управления расширениями браузера</p>
+                <p><strong className="text-white">Очистка данных:</strong> Удаление расширения удаляет все локально сохраненные данные</p>
+                <p><strong className="text-white">Отказ:</strong> Просто удалите расширение, чтобы прекратить всю обработку данных</p>
+              </div>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+             {/* Section 7: Third Party Services */}
+            <div className="space-y-6">
+               <div className="flex items-center gap-3 text-primary">
+                <Globe className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">7. Сторонние сервисы</h2>
+              </div>
+              <p className="text-gray-300">Это расширение использует публичный API FACEIT. Пожалуйста, ознакомьтесь с Политикой конфиденциальности FACEIT для получения информации об их методах обработки данных.</p>
+              
+               <div className="mt-4">
+                 <h3 className="text-lg font-bold text-white mb-2">7.1. Реклама и партнёрские интеграции</h3>
+                 <p className="text-gray-300">Расширение может отображать необязательные рекламные баннеры партнёров для поддержки разработки проекта. Эти баннеры не собирают никаких персональных данных, не отслеживают пользователей и могут быть отключены в любой момент через настройки расширения.</p>
+               </div>
+            </div>
+
+             <Separator className="bg-white/5" />
+
+            {/* Sections 8, 9, 10, 11 */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold text-primary mb-4">8. Изменения в данной политике</h2>
+                <p className="text-gray-300">Мы можем периодически обновлять данную политику конфиденциальности. Любые изменения будут отражены путем обновления даты "Последнее обновление" в верхней части страницы. Продолжение использования расширения после изменений означает принятие обновленной политики.</p>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold text-primary mb-4">9. Правовая основа (для пользователей ЕС)</h2>
+                <p className="text-gray-300">Для пользователей в Европейском Союзе наша правовая основа для обработки данных — законный интерес в предоставлении функциональности расширения и анонимном измерении статистики использования.</p>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold text-primary mb-4">10. Безопасность данных</h2>
+                <p className="text-gray-300">Хотя мы не собираем личные данные, мы применяем соответствующие технические меры для обеспечения безопасности любых передач данных и гарантируем, что расширение работает безопасно в рамках модели безопасности вашего браузера.</p>
+              </div>
+              
+              <div className="rounded-xl bg-white/5 p-8 border border-white/5 text-center">
+                <h2 className="text-2xl font-bold text-primary mb-6 flex items-center justify-center gap-2">
+                  <Mail className="w-6 h-6" />
+                  11. Контактная информация
+                </h2>
+                <p className="text-gray-300 mb-4">Если у вас есть вопросы или замечания по поводу данной политики конфиденциальности:</p>
+                <a href="mailto:forecast.extension@gmail.com" className="text-xl font-bold text-white hover:text-primary transition-colors">forecast.extension@gmail.com</a>
+                <p className="text-sm text-gray-500 mt-4">Время ответа: Мы стремимся отвечать в течение 72 часов.</p>
               </div>
             </div>
 
