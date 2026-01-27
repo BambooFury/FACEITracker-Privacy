@@ -31,15 +31,11 @@ jobs:
 
       - name: Build
         run: npx vite build --base="./"
-        working-directory: ./client
         env:
           NODE_ENV: production
 
-      - name: Copy build to dist folder
-        run: |
-          mkdir -p dist
-          cp -r client/dist/* dist/
-          cp dist/index.html dist/404.html
+      - name: Copy 404 for SPA
+        run: cp dist/public/index.html dist/public/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './dist/public'
 
   deploy:
     environment:
