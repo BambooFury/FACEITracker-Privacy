@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Link } from "wouter";
-import { Cpu, Info, Globe, Shield, Activity, HardDrive, UserCheck, ExternalLink, Mail, Zap, X, ChevronDown } from "lucide-react";
+import { Info, Globe, Shield, Activity, HardDrive, UserCheck, ExternalLink, Mail, Zap, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -507,9 +507,7 @@ export default function PrivacyPage() {
       <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg border border-primary/20 bg-primary/10 flex items-center justify-center">
-              <Cpu className="w-6 h-6 text-primary" />
-            </div>
+            <img src="./logo.png" alt="FACEITracker" className="w-10 h-10 rounded-lg" />
             <span className="font-bold text-xl tracking-wide">FACEITracker</span>
           </div>
 
