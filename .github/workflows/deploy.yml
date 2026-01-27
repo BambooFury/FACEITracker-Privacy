@@ -25,20 +25,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build
-        run: |
-          cd client
-          npx vite build --base="./" --outDir=../dist
+        run: npx vite build --base="./"
+        working-directory: ./client
         env:
           NODE_ENV: production
 
-      - name: Copy 404 page for SPA routing
-        run: cp dist/index.html dist/404.html
+      - name: Copy build to dist folder
+        run: |
+          mkdir -p dist
+          cp -r client/dist/* dist/
+          cp dist/index.html dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
