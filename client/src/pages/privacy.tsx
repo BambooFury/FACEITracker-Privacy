@@ -735,7 +735,7 @@ export default function PrivacyPage() {
                   {t.contactTitle}
                 </h2>
                 <p className="text-gray-300 mb-4">{t.contactText}</p>
-                <a href="mailto:hohondima3@gmail.com" className="text-xl font-bold text-white hover:text-primary transition-colors">hohondima3@gmail.com</a>
+                <a href="mailto:faceitrackerdeveloper@gmail.com" className="text-xl font-bold text-white hover:text-primary transition-colors">faceitrackerdeveloper@gmail.com</a>
                 <p className="text-sm text-gray-500 mt-4">{t.responseTime}</p>
               </div>
             </div>
